@@ -55,6 +55,106 @@ class Events extends Component{
   }
 
   getDaysWithEvents(){
-    
+    const days = this.getCalendarDays();
+    this.calendar.setStartDate(days[0]);
+    this.calendar.setEndDate(days[days.length-1]);
+    this.props.events.forEach((eventItem) => {
+      const eventStart = this.getCalendarDayObject(eventItem.start);
+      const eventEnd = this.getCalendarDayObject(eventItem.end);
+      const eventMeta = this.getEventMeta(days, eventStart, eventEnd);
+
+      if(eventMeta.isVisibleInView){
+        const eventLength = eventMeta.visibleEventLength;
+        const eventSlotIndex = days[eventMeta.firstVisibleDayIndex].eventSlots.indexOf(false);
+        let dayIndex = 0;
+
+        while(dayIndex < eventLength){
+          const eventData = Object.assign({}, eventItem);
+
+          if(dayIndex === 0){
+            eventData.isFirstDay = true;
+          }
+
+          if(dayIndex === eventLength -1){
+            eventData.isLastDay = true;
+          }
+
+          if(!eventData.isFirstDay || !eventData.isLastDay){
+            eventData.isBetweenDay = true;
+          }
+
+          days[eventMeta.firstVisibleDayIndex + dayIndex].eventSlots[eventSlotIndex] = eventData;
+          dayIndex++;
+        }
+      }
+    });
+    return days;
+  }
+
+  getCalendarDayObject(date){
+    const dateArray = date.split('-');
+    return{
+      year:dateArray[0],
+      month:dateArray[1]-1,
+      day:dateArray[2]
+    };
+  }
+
+  getLastIndexOfEvent(slots){
+    const lastIndexOfEvent = slots.map((slot, index) =>{
+      return slot !== false ? index:false;
+    }).filter((element) => {
+      return element;
+    }).pop();
+    return lastIndexOfEvent < 3 || lastIndexOfEvent == undefined ? 2 : lastIndexOfEvent;
+  }
+
+  getSerializedDay(day){
+    return [day.weekDay, day.day, day.month, day.year].join(' ');
+  }
+
+  renderDaysOfTheWeek(){
+    return this.props.daysOfTheWeek.map((title, index) =>{
+      return(
+        <CalendarTitle key={'title_'+index} title={title} />
+      );
+    });
+  }
+
+  renderEvents(day){
+    const eventSlots = day.eventSlots.slice(0, this.getLastIndexOfEvent(day.eventSlots) +1);
+    return eventSlots.map((eventData, index) =>{
+      return(
+        <CalendarEvent key={'event_'+index+this.getSerializedDay(day)} day={day} eventData={eventData} onClick={this.props.onEventClick} wrapTitle={this.props.wrapTitle} />
+      );
+    });
+  }
+
+  renderCalendarDays(){
+    return this.getDaysWithEvents().map((day, index) =>{
+      const isToday = Calendar.interval(day, this.state.today) === 1;
+      const events = this.renderEvents(day);
+      return(
+        <CalendarDay key={'day_'+this.getSerializedDay(day)} day={day} events={events} isToday={isToday} />
+      );
+    });
+  }
+
+  render(){
+    return(
+      <div className='flexContainer'>
+        {this.renderDaysOfTheWeek()}
+        {this.rendercalendarDays()}
+      </div>
+    );
   }
 }
+
+Events.defaultProps = {
+  daysOfTheWeek:['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  events:[],
+  wrapTitle:true,
+  maxEventSlots:10
+}
+
+export default Events;
