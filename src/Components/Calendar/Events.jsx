@@ -106,7 +106,7 @@ class Events extends Component{
     }).filter((element) => {
       return element;
     }).pop();
-    return lastIndexOfEvent < 3 || lastIndexOfEvent == undefined ? 2 : lastIndexOfEvent;
+    return lastIndexOfEvent < 3 || lastIndexOfEvent === undefined ? 2 : lastIndexOfEvent;
   }
 
   getSerializedDay(day){
@@ -144,7 +144,7 @@ class Events extends Component{
     return(
       <div className='flexContainer'>
         {this.renderDaysOfTheWeek()}
-        {this.rendercalendarDays()}
+        {this.renderCalendarDays()}
       </div>
     );
   }

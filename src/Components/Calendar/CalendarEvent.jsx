@@ -29,7 +29,7 @@ class CalendarEvent extends Component{
     }, this.props.eventData.eventClasses);
 
     return(
-      <div className={eventClasses} onClick={this.handleClick}>
+      <div className={eventClass} onClick={this.handleClick}>
         <div className='event-title'>
           {title}
         </div>
