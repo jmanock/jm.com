@@ -88,9 +88,9 @@ class CalendarTest extends Component{
         </Modal>
         <Container>
           <Row>
-            <ButtonGroup>
-              <Button variant='primary' onClick={this.handlePreviousMonth}>&lt;</Button>
-              <h1 style={{color:'orange'}}>{this.getHumanDate()}</h1>
+            <ButtonGroup style={{marginBottom:-100}}>
+              <Button variant='secondary' onClick={this.handlePreviousMonth}>&lt;</Button>
+              <h1 style={{color:'white',paddingTop:30}}>{this.getHumanDate()}</h1>
               <Button variant='secondary' onClick={this.handleNextMonth}>&gt;</Button>
             </ButtonGroup>
             <Events month={this.state.moment.month()} year={this.state.moment.year()} events={Data.getEvents()} onEventClick={this.handleEventClick} maxEventSlots={10} />
