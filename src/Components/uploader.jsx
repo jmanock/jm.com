@@ -34,6 +34,7 @@ class Uploader extends Component{
   render(){
     return(
       <div>
+        <div className='header_bg'></div>
         <progress value={this.state.progress} max='100' />
         <br />
         <input type='file' onChange={this.handleChange}></input>

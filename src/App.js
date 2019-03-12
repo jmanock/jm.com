@@ -10,7 +10,7 @@ const App = () => {
 			<Navbar />
 			<br />
 			<br />
-			
+			<Uploader />
 			<br />
 			<CalendarTest />
 		</Fragment>

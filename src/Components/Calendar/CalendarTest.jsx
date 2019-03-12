@@ -67,7 +67,7 @@ class CalendarTest extends Component{
 
   render(){
     return(
-      <div>
+      <div className='something'>
         <Overlay show={this.state.showPopover} rootClose onHide={() => this.setState({showPopover:false})} placement='top' container={this} target={this.state.popoverTarget}>
           <Popover id='event'>{this.state.overlayTitle}</Popover>
         </Overlay>
