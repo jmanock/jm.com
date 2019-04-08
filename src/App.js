@@ -8,12 +8,7 @@ const App = () => {
 	return(
 		<Fragment>
 			<Navbar />
-			<div className='header_bg'></div>
-			<br />
-			<br />
-			<Uploader />
-			<br />
-			<CalendarTest />
+			
 		</Fragment>
 
 	);
